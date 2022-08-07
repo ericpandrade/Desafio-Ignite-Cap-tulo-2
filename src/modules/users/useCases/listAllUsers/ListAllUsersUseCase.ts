@@ -10,6 +10,19 @@ class ListAllUsersUseCase {
 
   execute({ user_id }: IRequest): User[] {
     // Complete aqui
+    const user = this.usersRepository.findById(user_id);
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    if (user !== undefined && user.admin !== true) {
+      throw new Error("Use a admin user to list all users.");
+    }
+
+    const listAllUsers = this.usersRepository.list();
+
+    return listAllUsers;
   }
 }
 
